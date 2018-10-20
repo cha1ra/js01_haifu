@@ -18,14 +18,35 @@
         <li id="pull">おみくじを引く</li>
     </ul>
     <p id="echo"></p>
+    <div id="area">
+        This is a test
+    </div>
 </main>
 
 <footer>フッター</footer>
+
+<!-- おみくじアプリ -->
+<!-- 
+    • サンプル" omikuji_tpl.html "を使用して作成
+    • “おみくじボタン”クリック後に「大吉・中吉・小吉・吉・凶」 の5種類をランダムでHTMLに表示する表示記述例)
+      $("#id名").html("大吉");
+    • 「大吉・中吉・小吉・吉・凶」はIF文の中に記述します
+ -->
 <script>
 
+const omikujiResult = ['大吉', '中吉', '小吉', '吉', '凶'];
 
 
 
+$('#pull').on('click', function(){
+    $('#echo').html(omikujiResult[
+        Math.floor(Math.random()*5)
+    ]);
+
+    // innerHTMLのやつ
+    const el = document.querySelector('#area');
+    el.innerHTML = '<img src="http://1129.co.jp/img/home/main_kyukyoku_on.png">';
+});
 
 
 </script>
