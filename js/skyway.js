@@ -121,13 +121,65 @@ function setupEndCallUI(){
 
 
 /* 以下、坂尻さんの実験 */
+var myVideo = $('#my-video').get(0);
+var ctracker = new clm.tracker();
+var myCanvas = $('#myCanvas').get(0);
+var animeCanvas = $('#animeCanvas').get(0);
+var fd = new faceDeformer();
 
 // Draw Video to Canvas
 $(function(){
-
-    var myVideo = $('#my-video').get(0);
-    var myCanvas = $('#myCanvas').get(0);
+    ctrackerStart();
     setInterval(function(){
-        myCanvas.getContext('2d').drawImage(myVideo, 0, 0, 480, 270);
+        drawLoop();
+        getFacePositionData();
     },1000/30);
 });
+
+function ctrackerStart(){
+    ctracker.init();
+    ctracker.start(myCanvas);
+    console.log('clmtrackking start...')
+}
+
+
+//var canvasInput = document.getElementById('drawCanvas');
+
+
+function drawLoop() {
+    let cc = myCanvas.getContext('2d');
+    cc.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    cc.drawImage(myVideo, 0, 0, 480, 270);
+    //ctracker.draw(myCanvas);
+    
+
+    // var img = new Image();
+    // let cc = animeCanvas.getContext('2d');
+    // img.src = "./img/mino3.png";
+    // cc.clearRect(0, 0, animeCanvas.width, animeCanvas.height);
+    // cc.drawImage(img, 0, 0, 250, 250);
+    // ctracker.draw(animeCanvas);
+
+}
+
+function getFacePositionData() {
+    let posData = ctracker.getCurrentPosition();
+    fd.draw(posData);
+    //console.log(posData);
+}
+
+function coveredWithMinosanMask() {
+    //initial positons
+    let masks = {
+        "minosan" : [[108,284],[124,317],[139,354],[160,389],[189,419],[220,440],[262,462],[324,477],[382,458],[426,423],[445,398],[464,369],[482,337],[501,301],[517,246],[444,219],[407,186],[349,186],[324,224],[159,253],[182,216],[229,207],[271,235],[175,280],[206,246],[244,270],[212,290],[210,269],[431,246],[381,227],[356,259],[394,269],[389,250],[297, 249],[269,332],[258,346],[279,372],[310,364],[340,367],[354,338],[342,320],[301,288],[295,369],[324,367],[246,396],[265,389],[291,382],[312,383],[333,377],[359,377],[384,382],[378,405],[364,432],[322,453],[275,447],[256,426],[279,426],[316,438],[355,418],[342,414],[313,417],[284,419],[308,338],[182,257],[228,253],[232,281],[192,286],[408,237],[366,243],[375,269],[414,259]]
+      };
+
+    let fdcanvas = $('#animeCanvas').get(0);
+    fd.init(fdcanvas);
+
+    let maskImg = new Image();
+    maskImg.src = "./img/mino3.png";
+    fd.load(maskImg, masks["minosan"],pModel);
+}
+
+

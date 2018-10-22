@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="./js/jQueryRotate.js"></script>
+    <title>Jank MILLIONARE</title>
+</head>
+<body>
+    <div id="opening">
+        <h1>JANKen MILLIONARE</h1>
+        <div id="selectMode">
+            <div class='btn'>
+                Start as a Player
+            </div>
+            <div class='btn'>
+                Start as Mino-san
+            </div>
+        </div>
+        <img class='titleRing' src="./img/title-ring.png" alt="">
+        <footer>
+            2018 cha1ra.com All Rights Reserved.
+        </footer>
+    </div>
+
+    <script>
+        $(function(){
+            $('body').fadeIn(3000);
+
+            var angle = 0;
+            setInterval(function(){
+                angle+=3;
+                $(".titleRing").rotate(angle);
+            },40);
+        });
+
+        $('.btn').hover(
+            function(){
+                $(this).addClass('btnHover');
+            },
+            function(){
+                $(this).removeClass('btnHover');
+            }
+        );
+
+
+
+
+
+        var bgWidth = window.innerWidth;
+        var bgHeight = window.innerHeight;
+        var _rSCount = 30;
+        var _rS = [];
+        var count = 1;
+
+        function setup() {
+            createCanvas(bgWidth, bgHeight);
+            background(0);
+            fill(255);
+            rect(0,0,bgWidth,bgHeight);
+
+            for(let i=0; i<_rSCount; i++){
+                _rS[i] = new randomStroke();
+            }
+        }
+        
+        function draw() {
+            resetCanvas();
+
+            for(let i=0; i<_rSCount; i++){
+                _rS[i].fadeStroke();
+                _rS[i].draw();
+            }
+            addRandomStroke();
+            count++;
+        }
+
+        function resetCanvas(){
+            fill(255,255,255,40);
+            rect(0,0,bgWidth,bgHeight);
+        }
+
+        //P5.jsにおけるclassはこうらしい
+        function randomStroke(){
+            this.startY = random(bgHeight);
+            this.endY = random(bgHeight);
+            this.r = random(150,255);
+            this.g = random(150,255);
+            this.b = random(150,255);
+            this.a = 50;
+            this.leftSpeed = random(-10,10);
+            this.rightSpeed = random(-10,10);
+            this.draw = function(){
+                stroke(this.r,this.g,this.b,this.a);
+                line(0,this.startY,bgWidth,this.endY);
+                this.startY += this.leftSpeed;
+                this.endY += this.rightSpeed;
+            }
+
+            this.fadeStroke = function(){
+                if(this.startY > bgWidth*-2 || this.startY < bgWidth*2){
+                    this.r++;
+                    this.g++;
+                    this.b++;
+                    if(this.r>255 && this.g>255 && this.b>255){
+                        this.a--;
+                    }
+                }else if(this.a < 255){
+                    this.a += 30;
+                }
+            }
+        }
+
+        function addRandomStroke(){
+            if(count%30 == 0){
+                let _rSCountPrev = _rSCount;
+                _rSCount += 10;
+                for(let i=_rSCountPrev; i<_rSCount; i++){
+                    _rS[i] = new randomStroke();
+                }
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>
