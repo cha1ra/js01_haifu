@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <script src="js/jquery-2.1.3.min.js"></script>
+<script src="./js/clmtrackr.js"></script>
 <link rel="stylesheet" href="css/sample.css">
 <title>じゃんけん</title>
 </head>
@@ -22,6 +23,18 @@
   <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
   <div id="judgment">勝ち</div>
 </main>
+
+<video id="inputVideo" width="400" height="300" autoplay loop>
+  <source src="./media/somevideo.ogv" type="video/ogg"/>
+</video>
+<script type="text/javascript">
+  var videoInput = document.getElementById('inputVideo');
+  
+  var ctracker = new clm.tracker();
+  ctracker.init();
+  ctracker.start(videoInput);
+</script>
+
 
 <footer></footer>
 <script src="./js/janken.js"></script>
