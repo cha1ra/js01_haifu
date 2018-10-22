@@ -1,24 +1,38 @@
+/* General */
 body {
   display: none;
 }
 
-h1, footer {
+.btn {
+  background-color: #eb5353;
+  padding: 15px;
+  color: white;
+  margin: 15px;
   text-align: center;
 }
 
-#opening {
+.btnHover {
+  background-color: #efa29f;
+}
+
+/* Opening Section */
+#opening, #chooseMinosan, #selectAnswer, #janken {
+  text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  z-index: 20;
+  z-index: 100;
+}
+
+#titleImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
 }
 
 .titleRing {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
   z-index: 10;
   max-width: 600px;
   height: auto;
@@ -30,17 +44,142 @@ h1, footer {
   flex-wrap: wrap;
 }
 
-.btn {
-  background-color: #eb5353;
-  padding: 15px;
-  color: white;
-  margin: 15px;
-}
-
-.btnHover {
-  background-color: #efa29f;
-}
-
 footer {
   padding-top: 24px;
+}
+
+/* Player Select Screen */
+#chooseMinosan {
+  display: none;
+}
+
+/* Minosan Screen */
+#selectAnswer {
+  display: none;
+}
+
+.minoAnswer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.minoAnswer .ans {
+  width: 120px;
+  margin: auto;
+}
+
+.minoAnswer div img {
+  width: 80;
+  height: auto;
+}
+
+/* JankenSection */
+#janken {
+  text-align: center;
+  display: none;
+  width: 90%;
+}
+
+.quiz {
+  width: 90%;
+  padding: 24px;
+  border: 2px solid #3f6abf;
+  margin-bottom: 30px;
+}
+
+.answers {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.answers .ans {
+  background-color: #3f6abf;
+  color: #fff;
+  width: 250px;
+  height: 60px;
+  vertical-align: middle;
+  margin: 24px;
+}
+
+/* Fianl Answer */
+#finalAnswer {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+#finalAnswer .modal {
+  width: 400px;
+  height: 450px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+  top: 50%;
+  left: 50%;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #fff;
+}
+
+#finalAnswer .modal .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#finalAnswer .modal img {
+  width: 60%;
+  height: auto;
+  margin: auto;
+}
+
+/* Fianl Answer */
+#result {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+#result .modal {
+  width: 400px;
+  height: 450px;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+  top: 50%;
+  left: 50%;
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #fff;
+}
+
+#result .modal .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lifeline {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.life {
+  background-color: #fcf4d6;
+  width: 120px;
+  height: 100px;
+  vertical-align: middle;
+  margin: 24px;
 }

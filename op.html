@@ -14,29 +14,209 @@
     <div id="opening">
         <h1>JANKen MILLIONARE</h1>
         <div id="selectMode">
-            <div class='btn'>
+            <div class='btn' id="playAsPlayer">
                 Start as a Player
             </div>
-            <div class='btn'>
+            <div class='btn' id="playAsMinosan">
                 Start as Mino-san
             </div>
         </div>
-        <img class='titleRing' src="./img/title-ring.png" alt="">
+        <!-- <div id="titleImg">
+            <img class='titleRing' src="./img/title-ring.png" alt="">
+        </div> -->
         <footer>
             2018 cha1ra.com All Rights Reserved.
         </footer>
     </div>
 
+    <div id="chooseMinosan">
+        <h1>Select Mino-san</h1>
+        <p>Please select Mino-san you like.</p>
+        <div class="minosanList">
+            <p>Enter Mino-san ID if you have.</p>
+            <p>Or do you want to play with <a href='#'>CPU?</a></p>
+        </div>
+        <div class='btn'>
+            Back to Top
+        </div>
+    </div>
+
+    <div id="selectAnswer">
+        <h1>Choose your hand</h1>
+        <div class = "minoAnswer">
+            <div class="ans buttonA">
+                <img src="./img/gu-.png" alt="">
+                <p>A.グー</p>
+            </div>
+            <div class="ans buttonB">
+                <img src="./img/choki.png" alt="">
+                <p>B.チョキ</p>
+            </div>
+            <div class="ans buttonC">
+                <img src="./img/pa-.png" alt="">
+                <p>C.パー</p>
+            </div>
+        </div>
+        <div class='btn'>
+            Back to Top
+        </div>
+    </div>
+
+    <div id="janken">
+        <h1>Question</h1>
+        <p class="quiz">みのさんに勝てるじゃんけんの手は次のうちどれ？</p>
+        <div class="answers">
+            <div class="ans" id="gu_btn"><p>A.グー</p></div>
+            <div class="ans" id="cho_btn"><p>B.チョキ</p></div>
+            <div class="ans" id="par_btn"><p>C.パー</p></div>
+            <div class="ans" id="dropout"><p>D.ドロップアウト</p></div>
+        </div>
+        <div class="lifeline">
+            <div class="life fifity"><p>50:50</p></div>
+            <div class="life audience"><p>Audience</p></div>
+            <div class="life telephone"><p>telephone</p></div>
+        </div>
+    </div>
+
+    <div id="finalAnswer">
+        <div class="modal">
+            <div class="content">
+                <h1>ファイナルアンサー？</h1>
+                <img src="./img/mino3.png" alt="">
+                <div class='btn'>
+                    ファイナルアンサー
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <div id="result">
+        <div class="modal">
+            <div class="content">
+                <h1 id="judgement">Result</h1>
+                <div class='btn'>
+                    トップに戻る
+                </div>  
+            </div>
+        </div>
+    </div>
+
     <script>
+    //Hands Definition
+    const hands = ['グー','チョキ','パー']
+
+    //Get info what hand button I selected.
+    function myHandChoise(buttonID){
+        var myHandIs;
+        switch(buttonID){
+            case 'gu_btn':
+                myHandIs = 0;
+                break;
+            case 'cho_btn':
+                myHandIs = 1;
+                break;
+            case 'par_btn':
+                myHandIs = 2;
+                break;
+        }
+        console.log('My hand is :' + hands[myHandIs]);
+        return myHandIs;
+    }
+
+    //Get info what hand CPU Selected
+    function cpuHandChoise(){
+        return Math.floor(Math.random()*3);
+    }
+
+    //Janken Rule Definition
+    // https://staku.designbits.jp/check-janken/ おもろそう
+    function battle(myHand, cpuHand){
+        console.log('いざ尋常に勝負！');
+        console.log(myHand);
+        console.log(cpuHand);
+        var result;
+        switch((myHand - cpuHand+3)%3){
+            case 0:
+                result = "あいこ";
+                break;
+            case 1:
+                result = "残念！";
+                break;
+            case 2:
+                result = '正解！';
+                break;
+        }
+        return result;
+    }
+
+    //Recognize Which button be chosen.
+    $('.answers > div').on('click', function(){
+        $('#finalAnswer').fadeIn(fadeTime);
+    });
+
+    $('#finalAnswer > .modal > .content > .btn').on('click', function(){
+        $('#finalAnswer').fadeOut(fadeTime);
+        $('#janken').fadeOut(fadeTime);
+        //Get ButtonID
+        let buttonID = $(this).attr('id');
+        console.log(buttonID);
+        //Choose CPU selection
+        let cpu = cpuHandChoise();
+        resultScreen(buttonID,cpu);
+    });
+
+    function resultScreen(buttonID,cpu){
+        let result = battle(myHandChoise(buttonID),cpu);
+        $('#judgment').html(result);
+        $('#result').fadeIn();  
+    }
+
+        var fadeTime = 300;
+        //TopPage
         $(function(){
-            $('body').fadeIn(3000);
+            $('body').fadeIn(fadeTime);
 
             var angle = 0;
             setInterval(function(){
-                angle+=3;
+                angle++;
                 $(".titleRing").rotate(angle);
             },40);
         });
+
+        $('#selectMode > .btn').on('click',function(){
+            let buttonID = $(this).attr('id');
+            switch(buttonID){
+                case 'playAsPlayer':
+                    $('#opening').fadeOut(fadeTime);
+                    $('#chooseMinosan').fadeIn(fadeTime);
+                    break;
+                case 'playAsMinosan':
+                    $('#opening').fadeOut(fadeTime);
+                    $('#selectAnswer').fadeIn(fadeTime);
+                    break;
+            }
+        });
+
+        //Select 
+        $('#chooseMinosan > .btn').on('click',function(){
+            $('#chooseMinosan').fadeOut(fadeTime);
+            $('#opening').fadeIn(fadeTime);
+        })
+
+        $('.minosanList > p > a').on('click',function(){
+            $('#chooseMinosan').fadeOut(fadeTime);
+            $('#janken').fadeIn(fadeTime);
+            cpuHandChoise();
+        })
+
+        //Minosan
+        $('#selectAnswer > .btn').on('click',function(){
+            $('#selectAnswer').fadeOut(fadeTime);
+            $('#opening').fadeIn(fadeTime);
+        })
+
+
+
 
         $('.btn').hover(
             function(){

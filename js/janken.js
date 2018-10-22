@@ -51,7 +51,7 @@ $('#my_hand > li').on('click', function(){
     let buttonID = $(this).attr('id');
     console.log(buttonID);
     //Choose CPU selection
-    let cpu = cpuHandChoise();
+    //let cpu = cpuHandChoise();
     $('#pc_hands').html(hands[cpu]);
     let result = battle(myHandChoise(buttonID),cpu);
     $('#judgment').html(result);
